@@ -1,1 +1,1 @@
-# Todo with Vue.js
+# Todo with Vue.js v2
