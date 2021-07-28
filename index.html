@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo app with Vue.js v2</title>
+</head>
+<body>
+  <div id="app">
+    <form @submit.prevent="create">
+      <input
+        v-model="createText"
+        placeholder="Please input a todo."
+      />
+
+      <button>Create</button>
+    </form>
+
+    <ul>
+      <li v-for="(todo, index) in todos" :key="todo.id" >
+        <span v-if="todo.editing">
+          <input
+            v-model="todo.text"
+            @keyup="editing"
+          />
+        </span>
+        <span v-else>{{ todo.text }}</span>
+
+        <button @click="update(todo.id)">Update</button>
+        <button v-if="!todo.editing" @click="remove(todo.id)">Remove</button>
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        createText: '',
+        todos: [
+          {
+            id: 1, text: 'hi', editing: false,
+          },
+          {
+            id: 2, text: 'hello', editing: false,
+          },
+        ],
+      },
+      methods: {
+        create: function() {
+          var id = this.todos[this.todos.length - 1].id;
+
+          this.todos.push({
+            id: ++id,
+            text: this.createText,
+          });
+
+          // TODO: DB insert
+
+          this.createText = '';
+        },
+        update: function(id) {
+          var todo = this.todos.find(todo => todo.id === id);
+
+          if (todo.editing) {
+            todo.editing = false;
+
+            // TODO: DB update
+
+          } else {
+            todo.editing = true;
+          }
+        },
+        remove: function(id) {
+          this.todos = this.todos.filter(todo => todo.id !== id);
+          // TODO: DB delete
+        },
+        editing: function(id) {
+          var todo = this.todos.find(todo => todo.id === id);
+        },
+      },
+    });
+  </script>
+</body>
+</html>
