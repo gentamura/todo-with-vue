@@ -13,7 +13,7 @@ const saveTodos = (todos) => {
 const generateId = (todos) => {
   if (todos.length === 0) return 1;
 
-  const { id } = todos[todos.length - 1];
+  let { id } = todos[todos.length - 1];
   return ++id;
 };
 
